@@ -1,0 +1,35 @@
+---
+
+- name: Test distribution
+  assert:
+    that: >
+      ansible_os_family == "RedHat" or
+      ansible_os_family == "Debian"
+
+- name: Install influxdb package for RedHat
+  yum:
+    name: influxdb
+  when: ansible_os_family == 'RedHat'
+
+- name: Install influxdb package for Debian
+  apt:
+    name: influxdb
+  when: ansible_os_family == 'Debian'
+
+- name: Symlink init.d script
+  file:
+    src: /opt/influxdb/current/scripts/init.sh
+    path: /etc/init.d/influxdb
+    state: link
+
+- name: Test
+  template:
+    src: config.toml.j2
+    dest: /opt/influxdb/current/config.txt
+  notify: Restart influxdb service
+
+- name: Make influxdb service running
+  service:
+    name: influxdb
+    state: started
+    enabled: yes

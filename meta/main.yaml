@@ -1,0 +1,17 @@
+---
+
+galaxy_info:
+  author: Jiri Tyr
+  description: Role which installs and configures InfluxDB
+  license: MIT
+  min_ansible_version: 1.7
+  platforms:
+    - name: EL
+      versions:
+        - 6
+    - name: Debian
+      versions:
+        - all
+  categories:
+    - system
+dependencies: []
