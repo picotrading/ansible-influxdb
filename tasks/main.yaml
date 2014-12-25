@@ -25,7 +25,7 @@
 - name: Test
   template:
     src: config.toml.j2
-    dest: /opt/influxdb/current/config.txt
+    dest: /opt/influxdb/current/config.toml
   notify: Restart influxdb service
 
 - name: Make influxdb service running
