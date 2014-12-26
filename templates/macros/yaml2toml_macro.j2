@@ -44,12 +44,15 @@
         {%- if first.append(1) %}{% endif %}
       {%- endif %}
     {%- endfor %}
+
   {%- elif item is number or item == 'true' or item == 'True' or item == 'false' or item == 'False' %}
     {#- The item is a number -#}
     {{ item }}{{ "\n" }}
+
   {%- elif item is string %}
     {#- The item is a string -#}
     "{{ item | replace("\n", "\\n") | replace("\t", "\\t") }}"{{ "\n" }}
+
   {%- else %}
     {#- The item is a list #}
     {%- if item[0] is mapping %}

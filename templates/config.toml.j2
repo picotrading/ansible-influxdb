@@ -4,6 +4,6 @@
 # Any changes will be automatically reverted.
 #
 
-{% from 'yaml2toml_macro.j2' import yaml2toml with context -%}
+{% from 'macros/yaml2toml_macro.j2' import yaml2toml with context -%}
 
 {{ yaml2toml(influxdb_config) }}
