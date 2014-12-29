@@ -22,10 +22,10 @@
     path: /etc/init.d/influxdb
     state: link
 
-- name: Test
+- name: Create InfluxDB configuration file
   template:
     src: config.toml.j2
-    dest: /opt/influxdb/current/config.toml
+    dest: /opt/influxdb/shared/config.toml
   notify: Restart influxdb service
 
 - name: Make influxdb service running

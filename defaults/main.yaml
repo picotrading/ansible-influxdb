@@ -1,62 +1,237 @@
 ---
 
-# Default configuration
+# Default host name
+influxdb_hostname: "{{ ansible_hostname }}"
+
+# Default bind address
+influxdb_bind_address: 0.0.0.0
+
+# Reporting is disabled by default
+influxdb_reporting_disabled: 'true'
+
+# Default loging level [fine|debug|info|warn|error]
+influxdb_logging_level: info
+
+# Default log file
+influxdb_logging_file: /opt/influxdb/shared/log.txt
+
+# Default admin port number
+influxdb_admin_port: 8083
+
+# Default API port number
+influxdb_api_port: 8086
+
+# Default API read timeout
+influxdb_api_read_timeout: 5s
+
+# Default API configuration block
+influxdb_api:
+  port: "{{ influxdb_api_port }}"
+  read-timeout: "{{ influxdb_api_read_timeout }}"
+#  ssl-port = 8084
+#  ssl-cert = /path/to/cert.pem
+
+# Graphite input plugin is disabled by default
+influxdb_graphite_plugin_enabled: 'false'
+
+# Default Graphite database name
+influxdb_graphite_db: graphite
+
+# Default Graphite port number
+influxdb_graphite_port: 2003
+
+# Collectd input plugin is disabled by default
+influxdb_collectd_plugin_enabled: 'false'
+
+# Default Collectd database name
+influxdb_collectd_db: collectd
+
+# Default Collectd port number
+influxdb_collectd_port: 25826
+
+# Default Collectd types DB
+influxdb_collectd_typesdb: /usr/share/collectd/types.db
+
+# UDP input plugin is disabled by default
+influxdb_udp_plugin_enabled: 'false'
+
+# Default UDP database name
+influxdb_udp_db: udp
+
+# Default UDP port number
+influxdb_udp_port: 4444
+
+# Default udp servers configuration block
+influxdb_udp_servers:
+  - enabled: 'false'
+    port: 5551
+    database: db1
+#  - enabled: 'false'
+#    port: 5552
+#    database: db2
+
+# Default raft port number
+influxdb_raft_port: 8090
+
+# Default raft directory
+influxdb_raft_dir: /opt/influxdb/shared/data/raft
+
+# Raft debugging is disabled by default
+influxdb_raft_debug: 'false'
+
+# Default raft election timeout
+influxdb_raft_election_timeout: 1s
+
+# Default list of seed servers
+influxdb_cluster_seed_servers: []
+
+# Default cluster prtobuf port number
+influxdb_cluster_protobuf_port: 8099
+
+# Default cluster protobuf timeout
+influxdb_cluster_protobuf_timeout: 2s
+
+# Default cluster protobuf heartbeat time
+influxdb_cluster_protobuf_heartbeat: 200ms
+
+# Default cluster protobug min backoff time
+influxdb_cluster_protobuf_min_backoff: 1s
+
+# Default cluster protobuf max backoff time
+influxdb_cluster_protobuf_max_backoff: 10s
+
+# Default cluster write buffer size
+influxdb_cluster_write_buffer_size: 1000
+
+# Default cluster response buffer size
+influxdb_cluster_max_response_buffer_size: 100
+
+# Default cluster concurrent shard query limit
+influxdb_cluster_concurrent_shard_query_limit: 10
+
+# Default storage directory
+influxdb_storage_dir: /opt/influxdb/shared/data/db
+
+# Default storage write buffer size
+influxdb_storage_write_buffer_size: 10000
+
+# Default storage engine
+influxdb_storage_default_engine: rocksdb
+
+# Defaumt max bunber of open shards
+influxdb_storage_max_open_shards: 0
+
+# Default storage point batch size
+influxdb_storage_point_batch_size: 100
+
+# Default storage write batch size
+influxdb_storage_write_batch_size: 5000000
+
+# Default storage retention swwp period
+influxdb_storage_retention_sweep_period: 10m
+
+# Default max number of open files for LevelDB storage engine
+influxdb_storage_engines_leveldb_max_open_files: 1000
+
+# Default LRU cache size for LevelDB storage engine
+influxdb_storage_engines_leveldb_lru_cache_size: 200m
+
+# Default max number of open files for RocksDB storage engine
+influxdb_storage_engines_rocksdb_max_open_files: 1000
+
+# Default LRU cache size for RocksDB storage engine
+influxdb_storage_engines_rocksdb_lru_cache_size: 200m
+
+# Default max number of open files for HyperLevelDB storage engine
+influxdb_storage_engines_hyperleveldb_max_open_files: 1000
+
+# Default LRU cache size for HyperLevelDB storage engine
+influxdb_storage_engines_hyperleveldb_lru_cache_size: 200m
+
+# Default map size for LMDB storage engine
+influxdb_storage_engines_lmdb_map_size: 100g
+
+# Default wal directory
+influxdb_wal_dir: /opt/influxdb/shared/data/wal
+
+# Default flush after time
+influxdb_wal_flush_after: 1000
+
+# Default wal bookmark after time
+influxdb_wal_bookmark_after: 1000
+
+# Default wal index after time
+influxdb_wal_index_after: 1000
+
+# Default wal request per logfile time
+influxdb_wal_requests_per_logfile: 10000
+
+# Default configuration template
 influxdb_config:
-  bind-address: 0.0.0.0
-  reporting-disabled: 'true'
+  hostname: "{{ influxdb_hostname }}"
+  bind-address: "{{ influxdb_bind_address }}"
+  reporting-disabled: "{{ influxdb_reporting_disabled }}"
   logging:
-    level: info
-    file: /opt/influxdb/shared/log.txt
+    level: "{{ influxdb_logging_level }}"
+    file: "{{ influxdb_logging_file }}"
   admin:
-    port: 8083
+    port: "{{ influxdb_admin_port }}"
   api:
-    port: 8086
-    read-timeout: 5s
+    "{{ influxdb_api }}"
   input_plugins:
     graphite:
-      enabled: 'false'
+      enabled: "{{ influxdb_graphite_plugin_enabled }}"
+      database: "{{ influxdb_graphite_db }}"
+      port: "{{ influxdb_graphite_port }}"
     collectd:
-      enabled: 'false'
+      enabled: "{{ influxdb_collectd_plugin_enabled }}"
+      database: "{{ influxdb_collectd_db }}"
+      port: "{{ influxdb_collectd_port }}"
+      typesdb: "{{ influxdb_collectd_typesdb }}"
     udp:
-      enabled: 'false'
+      enabled: "{{ influxdb_udp_plugin_enabled }}"
+      database: "{{ influxdb_udp_db }}"
+      port: "{{ influxdb_udp_port }}"
     udp_servers:
-      - enabled: 'false'
+      "{{ influxdb_udp_servers }}"
   raft:
-    port: 8090
-    dir: /opt/influxdb/shared/data/raft
-    debug: 'false'
+    port: "{{ influxdb_raft_port }}"
+    dir: "{{ influxdb_raft_dir }}"
+    debug: "{{ influxdb_raft_debug }}"
+    election-timeout: "{{ influxdb_raft_election_timeout }}"
   storage:
-    dir: /opt/influxdb/shared/data/db
-    write-buffer-size: 10000
-    default-engine: rocksdb
-    max-open-shards: 0
-    point-batch-size: 100
-    write-batch-size: 5000000
-    retention-sweep-period: 10m
+    dir: "{{ influxdb_storage_dir }}"
+    write-buffer-size: "{{ influxdb_storage_write_buffer_size }}"
+    default-engine: "{{ influxdb_storage_default_engine }}"
+    max-open-shards: "{{ influxdb_storage_max_open_shards }}"
+    point-batch-size: "{{ influxdb_storage_point_batch_size }}"
+    write-batch-size: "{{ influxdb_storage_write_batch_size }}"
+    retention-sweep-period: "{{ influxdb_storage_retention_sweep_period }}"
     engines:
       leveldb:
-        max-open-files: 1000
-        lru-cache-size: 200m
+        max-open-files: "{{ influxdb_storage_engines_leveldb_max_open_files }}"
+        lru-cache-size: "{{ influxdb_storage_engines_leveldb_lru_cache_size }}"
       rocksdb:
-        max-open-files: 1000
-        lru-cache-size: 200m
+        max-open-files: "{{ influxdb_storage_engines_rocksdb_max_open_files }}"
+        lru-cache-size: "{{ influxdb_storage_engines_rocksdb_lru_cache_size }}"
       hyperleveldb:
-        max-open-files: 1000
-        lru-cache-size: 200m
+        max-open-files: "{{ influxdb_storage_engines_hyperleveldb_max_open_files }}"
+        lru-cache-size: "{{ influxdb_storage_engines_hyperleveldb_lru_cache_size }}"
       lmdb:
-        map-size: 100g
+        map-size: "{{ influxdb_storage_engines_lmdb_map_size }}"
   cluster:
-    protobuf_port: 8099
-    protobuf_timeout: 2s
-    protobuf_heartbeat: 200ms
-    protobuf_min_backoff: 1s
-    protobuf_max_backoff: 10s
-    write-buffer-size: 1000
-    max-response-buffer-size: 100
-    concurrent-shard-query-limit: 10
+    seed-servers: "{{ influxdb_cluster_seed_servers }}"
+    protobuf_port: "{{ influxdb_cluster_protobuf_port }}"
+    protobuf_timeout: "{{ influxdb_cluster_protobuf_timeout }}"
+    protobuf_heartbeat: "{{ influxdb_cluster_protobuf_heartbeat }}"
+    protobuf_min_backoff: "{{ influxdb_cluster_protobuf_min_backoff }}"
+    protobuf_max_backoff: "{{ influxdb_cluster_protobuf_max_backoff }}"
+    write-buffer-size: "{{ influxdb_cluster_write_buffer_size }}"
+    max-response-buffer-size: "{{ influxdb_cluster_max_response_buffer_size }}"
+    concurrent-shard-query-limit: "{{ influxdb_cluster_concurrent_shard_query_limit }}"
   wal:
-    dir: /opt/influxdb/shared/data/wal
-    flush-after: 1000
-    bookmark-after: 1000
-    index-after: 1000
-    requests-per-logfile: 10000
+    dir: "{{ influxdb_wal_dir }}"
+    flush-after: "{{ influxdb_wal_flush_after }}"
+    bookmark-after: "{{ influxdb_wal_bookmark_after }}"
+    index-after: "{{ influxdb_wal_index_after }}"
+    requests-per-logfile: "{{ influxdb_wal_requests_per_logfile }}"
