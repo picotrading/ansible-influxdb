@@ -1,17 +1,22 @@
 influxdb
 ========
 
-Role which installs and configures InfluxDB. This role doesn't download the
-influxdb package. In order to install it, it needs to be put into a repo (see
+Ansible role which installs and configures InfluxDB.
+
+This role doesn't download the RPM
+package. In order to install it, it needs to be put into a repo (see
 [`yumrepo`](https://github.com/picotrading/ansible-yumrepo) role for RedHat-based
-distros). You can encapsulate this role to do manage the installation of the
+distros). You can encapsulate this role to manage the installation of the RPM
 package automatically. The configuraton of the role is done in such way that it's
 not necessary to change the role for any kind of modification. All can be changed
-via parameters used by the role. See examples below.
+via parameters used by the role. That makes this role absolutely universal. See
+examples below.
+
+Please report any issues or send PR.
 
 
-Example
--------
+Examples
+--------
 
 ```
 ---
