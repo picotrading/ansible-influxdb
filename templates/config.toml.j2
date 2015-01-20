@@ -4,6 +4,6 @@
 # Any changes will be automatically reverted.
 #
 
-{% from 'macros/yaml2toml_macro.j2' import yaml2toml with context -%}
+{% from 'macros/toml_encode_macro.j2' import toml_encode with context -%}
 
-{{ yaml2toml(influxdb_config, detect_nums=true) }}
+{{ toml_encode(influxdb_config, detect_nums=true) }}

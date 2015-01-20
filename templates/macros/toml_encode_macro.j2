@@ -1,9 +1,9 @@
 {#
- # Jinja2 template which converts YAML to TOML
+ # Jinja2 macro which converts Python data structure to TOML format
  # (https://github.com/jtyr/yaml2toml-converter)
  #}
 
-{%- macro yaml2toml(item, prevkey='', level=0, first=[], detect_nums=false) %}
+{%- macro toml_encode(item, prevkey='', level=0, first=[], detect_nums=false) %}
   {%- if item is mapping %}
     {#- The item is a dict #}
 
@@ -17,7 +17,7 @@
             value[0] is not mapping) %}
 
         {#- The value is a string, a number, or a list -#}
-        {{ '  ' * level }}{{ key }}{{ " = " }}{{ yaml2toml(
+        {{ '  ' * level }}{{ key }}{{ " = " }}{{ toml_encode(
           value,
           prevkey=prevkey,
           level=level,
@@ -57,7 +57,7 @@
           {%- set level = level +1 %}
         {%- endif -%}
 
-        {{ yaml2toml(
+        {{ toml_encode(
              value,
              prevkey=prevkey,
              level=level,
@@ -91,7 +91,7 @@
     {#- The item is a list #}
     {%- if item[0] is mapping %}
       {%- for d in item -%}
-        {{ "\n" }}{{ '  ' * level }}[[{{ prevkey }}]]{{ "\n" }}{{ yaml2toml(
+        {{ "\n" }}{{ '  ' * level }}[[{{ prevkey }}]]{{ "\n" }}{{ toml_encode(
           d,
           level=level,
           first=first,
