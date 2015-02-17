@@ -7,10 +7,13 @@ This role doesn't download the RPM
 package. In order to install it, it needs to be put into a repo (see
 [`yumrepo`](https://github.com/picotrading/ansible-yumrepo) role for RedHat-based
 distros). You can encapsulate this role to manage the installation of the RPM
-package automatically. The configuraton of the role is done in such way that it's
-not necessary to change the role for any kind of modification. All can be changed
-via parameters used by the role. That makes this role absolutely universal. See
-examples below.
+package automatically.
+
+The configuraton of the role is done in such way that it should not be necessary
+to change the role for any kind of configuration. All can be done either by
+changing role parameters or by declaring completely new configuration as a
+variable. That makes this role absolutely universal. See the examples below for
+more details.
 
 Please report any issues or send PR.
 
@@ -42,6 +45,16 @@ Examples
 #        .
 #        ..
 #        ...
+```
+
+This role requires [Jinja2 Encoder
+Macros](https://github.com/picotrading/jinja2-encoder-macros) which must be
+placed into the same directory as the playbook:
+
+```
+$ ls -1 *.yaml
+site.yaml
+$ git clone https://github.com/picotrading/jinja2-encoder-macros.git ./templates/encoder
 ```
 
 
@@ -217,6 +230,12 @@ influxdb_wal_index_after: 1000
 # Default wal request per logfile time
 influxdb_wal_requests_per_logfile: 10000
 ```
+
+
+Dependencies
+------------
+
+* [Jinja2 Encoder Macros](https://github.com/picotrading/jinja2-encoder-macros)
 
 
 License
