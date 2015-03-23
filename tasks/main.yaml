@@ -10,11 +10,19 @@
   yum:
     name: influxdb
   when: ansible_os_family == 'RedHat'
+  notify:
+    - Restart influxdb service
+  tags:
+    - influxdb_pkg
 
 - name: Install influxdb package for Debian
   apt:
     name: influxdb
   when: ansible_os_family == 'Debian'
+  notify:
+    - Restart influxdb service
+  tags:
+    - influxdb_pkg
 
 - name: Symlink init.d script
   file:
@@ -26,7 +34,10 @@
   template:
     src: config.toml.j2
     dest: /opt/influxdb/shared/config.toml
-  notify: Restart influxdb service
+  notify:
+    - Restart influxdb service
+  tags:
+    - influxdb_config
 
 - name: Make influxdb service running
   service:
