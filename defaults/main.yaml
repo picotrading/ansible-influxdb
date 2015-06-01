@@ -10,7 +10,7 @@ influxdb_bind_address: 0.0.0.0
 influxdb_reporting_disabled: 'true'
 
 # Default loging level [fine|debug|info|warn|error]
-influxdb_logging_level: info
+influxdb_logging_level: error
 
 # Default log file
 influxdb_logging_file: /opt/influxdb/shared/log.txt
